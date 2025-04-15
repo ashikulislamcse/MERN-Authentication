@@ -5,6 +5,10 @@ import connectDB from "./Database/DB.js";
 
 const app = express();
 
+app.get("/", (req, res) => {
+  res.send("API is running successfully");
+});
+
 const PORT = process.env.PORT || 5001;
 connectDB().then(() => {
   app.listen(PORT, (req, res) => {

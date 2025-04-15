@@ -6,7 +6,7 @@ const Header = () => {
     <div className="flex justify-between px-10 py-4 bg-blue-400">
       {/* Logo Text */}
       <div>
-        <h1 className="text-3xl font-bold">MERN-Auth</h1>
+        <Link to="/"><h1 className="text-3xl font-bold">MERN-Auth</h1></Link>
       </div>
       {/* Navelink */}
       <div className="flex gap-4 text-lg font-semibold">

@@ -16,7 +16,7 @@ const Signin = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.get(
+      const { data } = await axios.post(
         "/api/user/login",
         { email, password },
         {
@@ -25,11 +25,12 @@ const Signin = () => {
           },
         }
       );
+      console.log(data)
 
       if (data.success) {
         toast.success(data.message);
         setTimeout(() => {
-          navigate("/home");
+          navigate("/");
         }, 2000);
       } else {
         toast.error(data.message || "Login failed");

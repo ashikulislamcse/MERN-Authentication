@@ -1,7 +1,8 @@
 import userModel from "../Models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
+import dotenv from "dotenv";
+dotenv.config();
 export const userRegister = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -66,12 +67,12 @@ export const userLogin = async (req, res) => {
       });
     }
 
-    const token = await jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
 
     res
-      .cookie("access_token", token, {
+      .cookie("token", token, {
         httpOnly: true,
         secure: true,
         sameSite: "None",
@@ -79,6 +80,7 @@ export const userLogin = async (req, res) => {
       .status(200)
       .json({
         success: true,
+        message: "Login Successfull.",
         user: { userId: user._id, name: user.name, email: user.email },
       });
   } catch (error) {
@@ -88,5 +90,23 @@ export const userLogin = async (req, res) => {
   }
 };
 
-
-
+export const userLogout = async (req, res) => {
+  try {
+    return res
+      .status(200)
+      .cookie("token", "", {
+        maxAge: 0,
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+      })
+      .json({
+        message: "Logout Successfully",
+        success: true,
+      });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", success: false });
+  }
+};
